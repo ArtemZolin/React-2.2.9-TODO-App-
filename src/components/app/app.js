@@ -203,7 +203,9 @@ export default class App extends Component {
       if(Number(task.seconds)===1 &&Number(task.minutes) ===0 ){
         this.onToggleCompleted(id)
       }
-      if(Number(task.seconds)!==0 &&Number(task.minutes) !==0 ){
+      if(Number(task.seconds)===0 &&Number(task.minutes) ===0 ){
+        clearInterval(task.timerId)
+      } else {
         const newTask = {
           ...task,
           minutes: [
