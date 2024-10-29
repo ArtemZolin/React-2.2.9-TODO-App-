@@ -17,7 +17,9 @@ function TaskList({todos, onToggleCompleted, onDeleted,onEditClick,onChangeDescr
           onDeleted = {() => onDeleted(id)}
           onEditClick={() => onEditClick(id)} 
 
+          // eslint-disable-next-line no-restricted-globals
           startTimer = {()=>startTimer(id)}
+          // eslint-disable-next-line no-restricted-globals
           pauseTimer = {()=>pauseTimer(id)}
         />
         {item.editing ? (

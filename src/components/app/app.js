@@ -160,11 +160,16 @@ export default class App extends Component {
   };
 
 
+  componentWillUnmount() {
+    clearInterval(this.timerId);
+  }
+
   pauseTimer = (id) => {
     const { todoData } = this.state;
     const currentTask = todoData.filter((todo) => todo.id === id);
     const [task] = currentTask;
     const index = todoData.findIndex((el) => el.id === id);
+    
     const newTask = {
       ...task,
       timerId: clearInterval(task.timerId),
@@ -194,7 +199,9 @@ export default class App extends Component {
     });
   }
 
+
   startTimer = (id) => {
+   
     const setTimer = setInterval(() => {
       const { todoData } = this.state;
       const currentTask = todoData.filter((todo) => todo.id === id);
@@ -216,15 +223,16 @@ export default class App extends Component {
           isTimerOn: !(Number(task.minutes) === 0 && Number(task.seconds) === 1),
           completed: Number(task.minutes) === 0 && Number(task.seconds) === 1 ? true : null,
         };
-        
+      
         const newArray = [...todoData.slice(0, index), newTask, ...todoData.slice(index + 1)];
         this.setState({
           todoData: newArray,
         });
       }
-      
-      
+      console.log('выполняется')
     }, 1000);
+    
+ 
   };
 
 

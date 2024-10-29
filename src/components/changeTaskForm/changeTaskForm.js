@@ -3,7 +3,7 @@ import './changeTaskForm.css';
 
 export default class ChangeTaskForm extends Component {
   state = {
-    newDescription: '',
+    newDescription: this.props.description,
   };
 
   static defaultProps = {
@@ -14,7 +14,7 @@ export default class ChangeTaskForm extends Component {
 
   onDescriptionChange = (event) => {
     this.setState({
-      newDescription: event.target.value.replace(/ +/g, ' ').trim(),
+      newDescription: event.target.value.replace(/ +/g, ' '),
     });
   };
 
@@ -31,14 +31,15 @@ export default class ChangeTaskForm extends Component {
   };
 
   render() {
-    const { description } = this.props;
+    const { newDescription } = this.state;
     return (
       <input
         type="text"
         className="edite"
-        placeholder= {description}
+        value={newDescription}
         onChange={this.onDescriptionChange}
         onKeyPress={this.onKeyPress}
+        autoFocus
       ></input>
     );
   }

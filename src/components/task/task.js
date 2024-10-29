@@ -3,11 +3,11 @@ import React,{Component} from "react";
 import './task.css';
 import { formatDistanceToNow } from "date-fns";
 
+
 export default class Task extends Component{
   state = {
-    // min: this.props.minutes,
-    // sec: this.props.seconds,
-    // isCounting: this.props.isCounting,
+    
+    isCounting: false,
   }
     
 
@@ -75,59 +75,86 @@ export default class Task extends Component{
   //     });
   //   }
   // };
+  componentWillUnmount() {
+    clearInterval(this.timerId);
 
+  }
+
+  handlePlay = (id) => {
+    const { startTimer } = this.props;
+    this.setState({
+      isCounting: true,
+    });
+    startTimer(id);
+  };
+
+  handlePause = (id) => {
+    const { pauseTimer } = this.props;
+    this.setState({
+      isCounting: false,
+    });
+    pauseTimer(id);
+  };
+
+
+  
   render () {
     const { 
-      
+      id,
       label,
       onToggleCompleted,
       onDeleted,
       completed,
       created,
       onEditClick,
-      startTimer,
-      pauseTimer,
-      isTimerOn,
+      isCompleted,
       minutes,
       seconds,
-        
-      
     } = this.props;
     
-    // const {min, sec,} =this.state
-    // const {isCounting, classNameView} =this.state
+    const {isCounting} =this.state
     let classNames1 = 'toggle';
     let classNames = 'no-des';
     if (completed) {
       classNames += ' description';
       classNames1 += ' description';
-      
     }
 
    
     
 
-    const buttonTimer = !isTimerOn ? (
-      /* eslint-disable-next-line jsx-a11y/control-has-associated-label */
-      <button type="button" className="icon-play" onClick={startTimer} > </button>
-    ) : (
-      /* eslint-disable-next-line jsx-a11y/control-has-associated-label */
-      <button type="button" className=" icon-pause" onClick={pauseTimer} > </button>
-    );
+    // const buttonTimer = !isCounting ? (
+    //   /* eslint-disable-next-line jsx-a11y/control-has-associated-label */
+    //   <button type="button" className="icon-play" onClick={() => this.handlePlay(id)}  > </button>
+    // ) : (
+    //   /* eslint-disable-next-line jsx-a11y/control-has-associated-label */
+    //   <button type="button" className=" icon-pause" onClick={() => this.handlePause(id)} > </button>
+    // );
 
    
     return(
       <div className='view'>
-
+        
         <input className={classNames1}
           type = "checkbox"
-          onMouseDown = {onToggleCompleted} 
-          onClick = {this.resetTimer}
+          onClick = {onToggleCompleted} 
         ></input>
 
         <label>
           <span className={classNames}> {label} </span>
-          {buttonTimer}
+          {/* {buttonTimer} */}
+          <button
+            type="button"
+            className=" icon-play"
+            onClick={() => this.handlePlay(id)}
+            disabled={isCompleted || isCounting}
+          />
+          <button
+            type="button"
+            className=" icon-pause"
+            onClick={() => this.handlePause(id)}
+            disabled={isCompleted}
+          />
           <span className="timer">{minutes}:{seconds}</span>
           <span className="created">created {formatDistanceToNow(created)} ago</span>
         </label>
