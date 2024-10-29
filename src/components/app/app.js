@@ -229,7 +229,7 @@ export default class App extends Component {
           todoData: newArray,
         });
       }
-      console.log('выполняется')
+      // console.log('выполняется')
     }, 1000);
     
  
